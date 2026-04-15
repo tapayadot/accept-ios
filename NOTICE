@@ -1,0 +1,26 @@
+AcceptSDK
+Copyright © Tapaya s.r.o. All rights reserved.
+
+This product includes software developed by third parties under the
+Apache License, Version 2.0.
+
+-------------------------------------------------------------------------------
+
+swift-openapi-generator
+https://github.com/apple/swift-openapi-generator
+Copyright 2023 The SwiftOpenAPIGenerator Project
+Licensed under the Apache License, Version 2.0.
+
+-------------------------------------------------------------------------------
+
+swift-openapi-runtime
+https://github.com/apple/swift-openapi-runtime
+Copyright 2023 The SwiftOpenAPIGenerator Project
+Licensed under the Apache License, Version 2.0.
+
+-------------------------------------------------------------------------------
+
+swift-openapi-urlsession
+https://github.com/apple/swift-openapi-urlsession
+Copyright 2023 The SwiftOpenAPIGenerator Project
+Licensed under the Apache License, Version 2.0.
