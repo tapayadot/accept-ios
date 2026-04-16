@@ -18,7 +18,7 @@ Or add to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/tapayadot/accept-ios.git", from: "1.0.0")
+    .package(url: "https://github.com/tapayadot/accept-ios.git", from: "1.1.0")
 ]
 ```
 
@@ -106,6 +106,62 @@ case .failed:
     print("Onboarding failed")
 }
 ```
+
+## Theming
+
+The SDK UI can be customized with your brand colors and logo. Pass a theme at initialization or update it any time before presenting a flow.
+
+### Colors
+
+```swift
+try await Accept.initialize(
+    environment: .production,
+    theme: AcceptThemeConfiguration(
+        colors: .local(AcceptColorTheme(accent: Color(hex: "#2D6A4F")))
+    )
+)
+```
+
+`AcceptColorTheme` properties:
+
+| Property | Description |
+|---|---|
+| `accent` | Primary brand color — drives buttons, tints, and focus rings |
+| `error` | Form validation and error states |
+| `warning` | Warning states |
+| `success` | Success and confirmation states |
+| `brandGradientColors` | Capsule and icon gradient. `nil` derives from `accent`. |
+| `brandSubtleGradientColors` | Full-screen background gradient. `nil` derives from `accent`. |
+
+### Images
+
+```swift
+try await Accept.initialize(
+    environment: .production,
+    theme: AcceptThemeConfiguration(
+        images: .local(AcceptImageTheme(
+            brandLogo: UIImage(named: "CompanyLogo")!,      // square, ~40×40 pt
+            toolbarLogo: UIImage(named: "CompanyWordmark")!  // horizontal, transparent bg
+        ))
+    )
+)
+```
+
+| Property | Where it appears | Asset guidelines |
+|---|---|---|
+| `brandLogo` | Flow page header (64×64 pt glass container) | Square, ~40×40 pt, original rendering |
+| `toolbarLogo` | Payment screen nav bar | Horizontal, transparent bg, 28 pt height |
+| `solidLogo` | Light/colored backgrounds | Horizontal, no gradient |
+
+### Updating the theme after initialization
+
+```swift
+try await Accept.setTheme(AcceptThemeConfiguration(
+    colors: .local(AcceptColorTheme(accent: .blue))
+))
+```
+
+The theme is captured when a flow is presented — changing it while a flow is on screen does not affect the running flow.
 
 ## Documentation
 
