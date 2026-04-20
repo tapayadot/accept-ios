@@ -18,7 +18,7 @@ Or add to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/tapayadot/accept-ios.git", from: "1.1.1")
+    .package(url: "https://github.com/tapayadot/accept-ios.git", from: "1.1.2")
 ]
 ```
 
