@@ -18,7 +18,7 @@ Or add to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/tapayadot/accept-ios.git", from: "1.1.0")
+    .package(url: "https://github.com/tapayadot/accept-ios.git", from: "1.1.1")
 ]
 ```
 
@@ -140,8 +140,9 @@ try await Accept.initialize(
     environment: .production,
     theme: AcceptThemeConfiguration(
         images: .local(AcceptImageTheme(
-            brandLogo: UIImage(named: "CompanyLogo")!,      // square, ~40×40 pt
-            toolbarLogo: UIImage(named: "CompanyWordmark")!  // horizontal, transparent bg
+            brandLogo: UIImage(named: "CompanyLogo")!,        // square, ~40×40 pt
+            toolbarLogo: UIImage(named: "CompanyWordmark")!,  // horizontal, transparent bg
+            solidLogo: UIImage(named: "CompanyWordmarkSolid")! // for light/colored backgrounds
         ))
     )
 )
