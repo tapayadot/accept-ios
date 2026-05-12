@@ -18,7 +18,7 @@ Or add to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/tapayadot/accept-ios.git", from: "1.1.2")
+    .package(url: "https://github.com/tapayadot/accept-ios.git", from: "1.2.0")
 ]
 ```
 
@@ -41,8 +41,8 @@ try await Accept.authenticate(merchantToken: "your-merchant-token")
 ```swift
 let outcome = try await Accept.pay(AcceptCardPaymentIntent(
     amount: 1000,
-    requestedCurrency: .eur,
-    settlementCurrency: .eur
+    requestedCurrency: "EUR",
+    settlementCurrency: "EUR"
 ))
 
 switch outcome {
@@ -53,13 +53,15 @@ case .canceled:
 }
 ```
 
+Currencies are ISO 4217 alpha-3 codes (e.g. `"EUR"`, `"CZK"`, `"USD"`).
+
 ### SEPA Instant Credit Transfer
 
 ```swift
 let outcome = try await Accept.pay(AcceptSepaPaymentIntent(
     amount: 1000,
-    requestedCurrency: .eur,
-    settlementCurrency: .eur
+    requestedCurrency: "EUR",
+    settlementCurrency: "EUR"
 ))
 
 switch outcome {
@@ -75,8 +77,8 @@ case .canceled:
 ```swift
 let outcome = try await Accept.pay(AcceptCertisPaymentIntent(
     amount: 10000,
-    requestedCurrency: .czk,
-    settlementCurrency: .czk
+    requestedCurrency: "CZK",
+    settlementCurrency: "CZK"
 ))
 
 switch outcome {
@@ -87,11 +89,46 @@ case .canceled:
 }
 ```
 
+### Refund a Payment
+
+```swift
+let refund = try await Accept.refund(
+    paymentToken: "pay_…",
+    reason: .customerRequest
+)
+
+print(refund.refundToken, refund.status)
+```
+
+Reasons: `.customerRequest`, `.duplicate`, `.fraudulent`, `.expiredCharge`.
+Pass an optional `refundToken` as an idempotency key for safe retries.
+Throws `.refundConflict` if the payment is not refundable or the token was reused,
+`.paymentNotFound` if the payment token is unknown.
+
+### Look Up Payment Status
+
+Query the result of a previously initiated payment without going through the
+full payment flow — useful when resuming after an app restart:
+
+```swift
+let status = try await Accept.getPaymentStatus(for: "pay_…")
+```
+
+### Cancel the Active Payment
+
+Dismisses the in-flight SDK UI and cancels the transaction server-side if it
+is still pending. The suspended `Accept.pay(…)` call returns `.canceled`.
+
+```swift
+try Accept.cancelActivePayment()
+// throws .noActivePayment if no payment flow is running
+```
+
 ### KYB Onboarding
 
 ```swift
 let result = try await Accept.presentKyb(prefilling: KybPrefillData(
-    businessType: .soleTrader,
+    businessType: .company,
     countryCode: "DE",
     legalName: "Acme GmbH",
     businessEmail: "hello@acme.de"
@@ -105,6 +142,28 @@ case .cancelled:
 case .failed:
     print("Onboarding failed")
 }
+```
+
+### Merchant Onboarding Status
+
+```swift
+let status = try await Accept.getOnboardingStatus()
+
+// Check if merchant is onboarded
+print(status.isOnboarded)
+
+// Check status of a specific payment method
+if let cardStatus = status.status(for: .card) {
+    print(cardStatus.isReady) // true if .active or .attentionNeeded
+}
+```
+
+Or query a single method directly:
+
+```swift
+let cardStatus = try await Accept.getPaymentMethodStatus(for: .card)
+// .notStarted | .pending | .actionRequired
+// | .attentionNeeded | .active | .blocked
 ```
 
 ## Theming
