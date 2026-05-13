@@ -15,8 +15,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "AcceptSDK",
-            url: "https://github.com/tapayadot/accept-ios/releases/download/1.2.1/AcceptSDK.xcframework.zip",
-            checksum: "2887fac3b887efe5c23fc38cd1f2daf50c61a5322d5657cc0043391b1a7adab0"
+            url: "https://github.com/tapayadot/accept-ios/releases/download/1.2.2/AcceptSDK.xcframework.zip",
+            checksum: "cb16241363e305a70c666c2cd9bbd7fd933fdc0c1f22c2cd19bf3f8d054a0c08"
         )
     ]
 )

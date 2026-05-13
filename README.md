@@ -18,7 +18,7 @@ Or add to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/tapayadot/accept-ios.git", from: "1.2.1")
+    .package(url: "https://github.com/tapayadot/accept-ios.git", from: "1.2.2")
 ]
 ```
 
@@ -176,10 +176,12 @@ The SDK UI can be customized with your brand colors and logo. Pass a theme at in
 try await Accept.initialize(
     environment: .production,
     theme: AcceptThemeConfiguration(
-        colors: .local(AcceptColorTheme(accent: Color(hex: "#2D6A4F")))
+        colors: .local(AcceptColorTheme(accent: AcceptColor(hex: "#2D6A4F")))
     )
 )
 ```
+
+`AcceptColor` accepts a `UIColor`, sRGB doubles, 8-bit channels, a hex string (`"#RRGGBB"`, `"RRGGBBAA"`, `"RGB"`), or a hex integer (`0xRRGGBB`). The adaptive presets `.blue`, `.red`, `.orange`, and `.green` wrap the matching `UIColor.system…` so dark mode is preserved.
 
 `AcceptColorTheme` properties:
 
